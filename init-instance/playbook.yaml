@@ -4,7 +4,7 @@
   gather_facts: true
   become: true
   vars_files:
-    - config.yml
+    - config.yaml
   tasks:
     - name: Include RHEL tasks
       ansible.builtin.import_tasks: tasks/rhel.yaml
