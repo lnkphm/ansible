@@ -1,0 +1,42 @@
+---
+- name: Perform a update
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_only: true
+
+- name: Check if a reboot is required
+  ansible.builtin.stat:
+    path: /var/run/reboot-required
+    get_checksum: false
+  register: reboot_required_file
+
+- name: Reboot the server (if required)
+  ansible.builtin.reboot:
+  when: reboot_required_file.stat.exists
+
+- name: Remove dependencies that are no longer required
+  ansible.builtin.dnf:
+    autoremove: true
+
+- name: Enable EPEL
+  ansible.builtin.dnf:
+    name: epel-release
+  when:
+    - rhel_enable_epel
+
+- name: Update cache
+  ansible.builtin.dnf:
+    update_cache: true
+  when:
+    - rhel_enable_epel
+
+- name: Install additional packages
+  ansible.builtin.dnf:
+    name:
+      - bash-completion
+      - htop
+      - vim
+    state: present
+  when:
+    - rhel_install_additional_packages

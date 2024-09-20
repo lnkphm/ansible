@@ -1,0 +1,9 @@
+all:
+  hosts:
+    10.10.1.46:
+    10.10.1.111:
+    10.10.1.70:
+  vars:
+    ansible_connection: ssh
+    ansible_user: rocky
+

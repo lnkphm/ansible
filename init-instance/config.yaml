@@ -1,0 +1,4 @@
+---
+rhel_enable_epel: true
+rhel_install_additional_packages: true
+
